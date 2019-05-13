@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.blq.mapper.AdminMapper">
+    <select id="login" parameterType="Admin" resultType="Admin">
+		select * from admin where (username=#{username}  or email=#{username} )and password=#{password}
+	</select>
+    <insert id="regist" parameterType="Admin">
+		insert into admin (id,username,password,email,telephone,flag) values (#{id},#{username},#{password},#{email },#{telephone},'0')
+	</insert>
+
+    <select id="checkUsernameIfExit" parameterType="String" resultType="Admin">
+		select * from admin where username=#{username} or email=#{username}
+	</select>
+
+</mapper>

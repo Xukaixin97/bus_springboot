@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.blq.mapper.BusMapper">
+    <select id="getLineInfo" resultType="Bus2">
+        select * from bus_line
+        <where>
+            <if test="city!='' ">
+                citycode = #{city}
+            </if>
+            <if test="busType!=''">
+                and type in (${busType})
+            </if>
+            <if test="busKeyWords!=''">
+                and name like '%${busKeyWords}%'
+            </if>
+        </where>
+
+    </select>
+    <insert id="addLineInfo" parameterType="Bus">
+		insert into bus_line
+		(basic_price,citycode,distance,end_stop,etime,id,name,start_stop,stime,total_price,type,via_stops)
+		values
+		(#{basic_price},#{citycode},#{distance},#{end_stop},#{etime},#{id},#{name},#{start_stop}
+		,#{stime},#{total_price},#{type},#{via_stops})
+	</insert>
+    <update id="updateLineInfo" parameterType="Bus2">
+		update  bus_line set
+			basic_price = #{basicprice},
+			citycode =#{citycode},
+			distance = #{distance},
+			end_stop = #{endstop},
+			etime = #{etime},
+			name = #{name},
+			start_stop = #{startstop},
+			stime = #{stime},
+			total_price = #{totalprice},
+			type = #{type} ,
+			via_stops = #{viastops}
+		where
+			id = #{id}
+	</update>
+    <select id="getBusLineOrStationInfo" parameterType="String" resultType="String">
+		select name from bus_line
+		where (type like '%${msg}%' or name like '%${msg}%' or via_stops like '%${msg}%' )
+			and citycode = (select value from city_info where label=#{name})
+		limit 10
+	</select>
+    <select id="getDetailInfo" parameterType="String" resultType="Bus2">
+		select * from bus_line where name = #{name}
+	</select>
+
+    <select id="checkBusLineIfExit" parameterType="String" resultType="bus2">
+		select  * from bus_line where id=#{id}
+	</select>
+    <insert id="addStationInfo" parameterType="List">
+        insert into station_info (id,name,line_id) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.name},#{item.lineId})
+        </foreach>
+    </insert>
+    <insert id="addCityInfo" parameterType="String">
+		insert into city_info (adcode,label,level,value,parentCode) values(#{adcode},#{name},#{level},#{value},#{parentCode})
+
+	</insert>
+    <select id="getProvince" resultType="String">
+		select label from city_info where level='province'
+	</select>
+	<select id="getCityInfo" resultType="City" >
+		select * from city_info where parentCode=(SELECT adcode from city_info where label=#{name})
+	</select>
+	<delete id="deleteInfo" parameterType="String">
+		delete from bus_line where id = #{id}
+	</delete>
+
+</mapper>

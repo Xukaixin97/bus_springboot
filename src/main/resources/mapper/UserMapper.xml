@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.blq.mapper.UserMapper">
+    <select id="login" parameterType="String" resultType="User">
+		select * from user where (telephone=#{username} or login_name=#{username}) and login_password=#{password}
+	</select>
+    <insert id="register" parameterType="User">
+		insert into user (id,login_name,login_password,telephone,flag) values (#{id},#{loginName},#{loginPassword},#{telephone},'0')
+	</insert>
+    <select id="getUserInfo" resultType="User">
+		select  * from user
+		<where>
+			<if test="nameKeyWord!=''">
+				  login_name like '%${nameKeyWord}%'
+			</if>
+			<if test="telephoneKeyWord!=''">
+				  and telephone like '%${telephoneKeyWord}%'
+			</if>
+		</where>
+	</select>
+    <delete id="deleteUser" parameterType="String">
+		delete  from user where  id=#{id}
+	</delete>
+    <select id="checkUsernameIfExit" parameterType="String" resultType="User">
+		select  * from user where login_name=#{username}
+	</select>
+	<select id="queryCount" resultType="int">
+		select count(id) from user
+	</select>
+
+</mapper>
