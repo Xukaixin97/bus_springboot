@@ -18,6 +18,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+
+    //s
     @Autowired
     private AdminSerivce adminSerivce;
     @Autowired
