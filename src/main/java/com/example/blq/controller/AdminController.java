@@ -19,17 +19,18 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    //s
+
     @Autowired
     private AdminSerivce adminSerivce;
     @Autowired
     private JavaMailSender mailSender;
 
+
     @RequestMapping("/login")
     public Admin login(HttpServletRequest request, String username, String password) {
         System.out.println("用户名:" + username + "密码:" + password);
         Admin admin = adminSerivce.login(username, password);
-        if(admin !=null) {
+        if (admin != null) {
             return admin;
         }
         return admin;
@@ -37,6 +38,7 @@ public class AdminController {
 
     /**
      * 小程序用户注册
+     *
      * @param admin 前端提交的用户信息
      * @return
      */
@@ -55,6 +57,7 @@ public class AdminController {
 
     /**
      * 获取手机验证码
+     *
      * @param email
      * @return
      */
@@ -67,12 +70,14 @@ public class AdminController {
         simpleMailMessage.setFrom("18751571355@163.com");
         simpleMailMessage.setTo(email);
         simpleMailMessage.setSubject("这是一条验证码信息");
-        simpleMailMessage.setText("欢迎您注册，验证码为:"+code+",请返回客户端输入");
+        simpleMailMessage.setText("欢迎您注册，验证码为:" + code + ",请返回客户端输入");
         mailSender.send(simpleMailMessage);
         return code;
     }
+
     /**
      * 判断管理员名是否存在
+     *
      * @param username
      * @return
      */
@@ -80,9 +85,23 @@ public class AdminController {
     public boolean checkUsernameIfExit(String username) {
         System.out.println(username);
         List admin = adminSerivce.checkUsernameIfExit(username);
-        if (admin.size() >0) {
+        if (admin.size() > 0) {
             return true;
         }
         return false;
     }
+
+//    @RequestMapping("/checkEmailIfExit")
+//    public boolean checkEmailIfExit(String email) {
+//        System.out.println(email);
+//
+//        List admin = adminMapper.selectList(
+//                new QueryWrapper<Admin>().lambda().eq(Admin::getEmail,email)
+//        );
+//        if (admin.size() > 0) {
+//            return true;
+//        }
+//        return false;
+//
+//    }
 }

@@ -29,7 +29,7 @@ public class UserController {
      */
     @RequestMapping("/login")
     public boolean login(String username, String password) {
-//        System.out.println("微信小程序调用接口！！！用户名:" + username + "密码:" + password);
+        System.out.println("微信小程序调用接口！！！用户名:" + username + "密码:" + password);
         List login = userService.login(username, password);
 //        System.out.println(login);
         if (login.size() > 0) {
