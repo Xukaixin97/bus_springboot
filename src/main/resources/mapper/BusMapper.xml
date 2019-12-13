@@ -66,10 +66,10 @@
     <select id="getProvince" resultType="String">
 		select label from city_info where level='province'
 	</select>
-	<select id="getCityInfo" resultType="City" >
+    <select id="getCityInfo" resultType="City">
 		select * from city_info where parentCode=(SELECT adcode from city_info where label=#{name})
 	</select>
-	<delete id="deleteInfo" parameterType="String">
+    <delete id="deleteInfo" parameterType="String">
 		delete from bus_line where id = #{id}
 	</delete>
 
