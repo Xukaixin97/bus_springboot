@@ -11,7 +11,7 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserMapper userMapper;
-；；；
+
     public List login(String username,String password) {
         return userMapper.login(username,password);
     }
